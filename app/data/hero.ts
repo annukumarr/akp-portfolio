@@ -1,5 +1,10 @@
 export const hero = {
+  badge: "🚀 Future AI Engineer",
+
   headline: "Building AI that solves real-world problems.",
+
+  description:
+    "MCA AI & ML student focused on building intelligent software, AI agents, and products that solve meaningful real-world problems.",
 
   philosophy: [
     "Think Deep.",
@@ -7,10 +12,7 @@ export const hero = {
     "Leave Impact.",
   ],
 
-  description:
-    "MCA AI & ML student focused on building intelligent software, AI agents, and products that solve meaningful real-world problems.",
+  primaryButton: "Explore My Journey",
 
-  primaryButton: "Explore My Work",
-
-  secondaryButton: "GitHub",
+  secondaryButton: "View GitHub",
 };
