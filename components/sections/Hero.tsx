@@ -9,7 +9,7 @@ import SocialProof from "@/components/Hero/SocialProof/SocialProof";
 export default function Hero() {
   return (
     <Container>
-      <section className="min-h-screen flex items-center">
+      <section className="min-h-screen pt-20 flex items-center">
         <div className="grid w-full gap-16 lg:grid-cols-2">
           {/* Left Side */}
           <div className="flex flex-col justify-center">
