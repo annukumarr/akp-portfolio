@@ -65,3 +65,7 @@ body {
   background: var(--accent);
   color: var(--text-primary);
 }
+
+html {
+  scroll-behavior: smooth;
+}
