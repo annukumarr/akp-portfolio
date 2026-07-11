@@ -6,7 +6,7 @@ export default function SocialProof() {
       {hero.philosophy.map((item) => (
         <span
           key={item}
-          className="rounded-full border border-zinc-700 px-4 py-2 text-sm text-zinc-300"
+          className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-text-secondary transition duration-300 hover:border-border-hover hover:text-text-primary"
         >
           {item}
         </span>
