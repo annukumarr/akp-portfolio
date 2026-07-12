@@ -2,7 +2,10 @@ export const contact = {
   title: "Let's Build Something Meaningful.",
 
   subtitle:
-    "I'm always interested in AI, machine learning, intelligent software, and opportunities to build products that solve real-world problems.",
+    "Have an idea, opportunity, or ambitious AI project? I'm always open to conversations that can turn meaningful problems into intelligent products.",
+
+  message:
+    "Whether it's AI, machine learning, intelligent software, or a challenging engineering problem — let's connect and explore what we can build together.",
 
   actions: {
     email: {

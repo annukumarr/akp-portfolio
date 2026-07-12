@@ -1,23 +1,45 @@
+"use client";
+
+import { motion } from "motion/react";
 import { contact } from "@/app/data/contact";
 
 export default function ContactActions() {
   return (
-    <div className="mt-8 flex flex-wrap gap-4">
-      <a
+    <div className="relative mt-8 flex flex-wrap gap-4">
+      <motion.a
         href={contact.actions.email.href}
-        className="rounded-xl bg-white px-6 py-3 font-medium text-black transition hover:bg-zinc-200"
+        whileHover={{ y: -3, scale: 1.02 }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ duration: 0.2 }}
+        className="
+          rounded-xl bg-white
+          px-6 py-3 font-medium text-black
+          transition-all duration-300
+          hover:shadow-[0_0_25px_rgba(255,255,255,0.20)]
+        "
       >
         {contact.actions.email.label}
-      </a>
+      </motion.a>
 
-      <a
+      <motion.a
         href={contact.actions.github.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="rounded-xl border border-zinc-700 px-6 py-3 font-medium transition hover:border-white"
+        whileHover={{ y: -3, scale: 1.02 }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ duration: 0.2 }}
+        className="
+          rounded-xl border border-zinc-700
+          px-6 py-3 font-medium
+          transition-all duration-300
+          hover:border-violet-500
+          hover:bg-violet-500/10
+          hover:text-violet-300
+          hover:shadow-[0_0_25px_rgba(139,92,246,0.12)]
+        "
       >
         {contact.actions.github.label}
-      </a>
+      </motion.a>
     </div>
   );
 }
