@@ -7,11 +7,11 @@ export const projects = {
   items: [
     {
       title: "Jarvis-X",
-      category: "AI Assistant",
+      category: "AI Operating System",
       description:
-        "An intelligent AI assistant with voice interaction, automation, and future LLM integration.",
+        "An intelligent AI system designed to understand, remember, automate, and interact through modular AI architecture.",
       tech: ["Python", "AI", "LLM", "Automation"],
-      href: "https://github.com/annukumarr/Jarvis-X",
+      href: "/projects/jarvis-x",
     },
 
     {
