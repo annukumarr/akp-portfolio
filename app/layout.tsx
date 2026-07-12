@@ -13,69 +13,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://akp-portfolio-zeta.vercel.app"),
+
   title: {
     default: "Annu Kumar Pal | AI & ML Engineer",
     template: "%s | Annu Kumar Pal",
   },
 
   description:
-    "Portfolio of Annu Kumar Pal, an MCA AI & ML student building intelligent software, AI systems, machine learning projects, and products that solve meaningful real-world problems.",
-
-  applicationName: "AKP Portfolio",
-
-  authors: [
-    {
-      name: "Annu Kumar Pal",
-    },
-  ],
-
-  creator: "Annu Kumar Pal",
-  publisher: "Annu Kumar Pal",
-
-  keywords: [
-    "Annu Kumar Pal",
-    "AI Engineer",
-    "Machine Learning Engineer",
-    "AI ML Portfolio",
-    "Artificial Intelligence",
-    "Machine Learning",
-    "Generative AI",
-    "AI Agents",
-    "Python Developer",
-    "Software Engineer",
-    "Jarvis-X",
-    "AKP Portfolio",
-    "MCA AI ML",
-  ],
-
-  category: "technology",
+    "AI & ML Engineer building intelligent software, AI agents, and products that solve meaningful real-world problems.",
 
   openGraph: {
-    type: "website",
-    locale: "en_IN",
     title: "Annu Kumar Pal | AI & ML Engineer",
     description:
-      "Building intelligent software, AI systems, and products that solve meaningful real-world problems.",
+      "Building AI that solves meaningful real-world problems.",
+    url: "https://akp-portfolio-zeta.vercel.app",
     siteName: "AKP Portfolio",
+    type: "website",
   },
 
   twitter: {
     card: "summary_large_image",
     title: "Annu Kumar Pal | AI & ML Engineer",
     description:
-      "Building intelligent software, AI systems, and products that solve meaningful real-world problems.",
-  },
-
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
+      "Building AI that solves meaningful real-world problems.",
   },
 };
 
