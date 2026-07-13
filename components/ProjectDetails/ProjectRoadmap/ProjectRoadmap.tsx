@@ -1,63 +1,53 @@
 import Link from "next/link";
 
-const roadmap = [
-  {
-    phase: "Phase 01",
-    title: "Contextual Intelligence",
-    description:
-      "Build deeper conversational continuity using structured long-term memory and context-aware interaction.",
-    systems: ["Long-term Memory", "Context Engine", "Personal Knowledge"],
-  },
-  {
-    phase: "Phase 02",
-    title: "Proactive Automation",
-    description:
-      "Move Jarvis-X beyond reactive commands by introducing scheduled actions, proactive tasks, and intelligent workflows.",
-    systems: ["Scheduler", "Task Engine", "Workflow Automation"],
-  },
-  {
-    phase: "Phase 03",
-    title: "Multimodal Interaction",
-    description:
-      "Expand interaction beyond voice through visual interfaces, gesture control, and intelligent system dashboards.",
-    systems: ["Visual Dashboard", "Gesture Control", "Multimodal Input"],
-  },
-  {
-    phase: "Phase 04",
-    title: "Agentic System",
-    description:
-      "Evolve Jarvis-X into a coordinated multi-agent architecture capable of planning and executing complex objectives.",
-    systems: ["AI Agents", "Planning", "Multi-Agent Architecture"],
-  },
-];
+import type { RoadmapItem } from "@/app/data/project-details";
 
-export default function ProjectRoadmap() {
+type ProjectRoadmapProps = {
+  label: string;
+  heading: string;
+  description: string;
+  items: readonly RoadmapItem[];
+  cta: {
+    label: string;
+    heading: string;
+    description: string;
+    primaryLabel: string;
+    secondaryLabel: string;
+  };
+  github: string;
+};
+
+export default function ProjectRoadmap({
+  label,
+  heading,
+  description,
+  items,
+  cta,
+  github,
+}: ProjectRoadmapProps) {
   return (
     <section className="border-t border-white/10 bg-black px-6 py-24 md:px-10 md:py-32">
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
             <p className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-violet-400">
-              Future Roadmap
+              {label}
             </p>
 
             <h2 className="max-w-md text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
-              The system is only getting started.
+              {heading}
             </h2>
           </div>
 
           <div className="flex items-end">
             <p className="max-w-2xl text-base leading-8 text-zinc-400 md:text-lg">
-              Jarvis-X is designed as a long-term AI engineering system. Each
-              development phase expands its ability to understand context,
-              automate workflows, interact across modalities, and coordinate
-              intelligent agents.
+              {description}
             </p>
           </div>
         </div>
 
         <div className="mt-20 border-t border-white/10">
-          {roadmap.map((item) => (
+          {items.map((item) => (
             <article
               key={item.phase}
               className="group grid gap-8 border-b border-white/10 py-10 md:grid-cols-[0.35fr_0.65fr_1.2fr] md:gap-12 md:py-14"
@@ -96,33 +86,32 @@ export default function ProjectRoadmap() {
 
         <div className="mt-28 rounded-[2rem] border border-violet-500/30 bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.15),transparent_60%)] px-8 py-20 text-center md:px-16 md:py-28">
           <p className="text-xs font-medium uppercase tracking-[0.35em] text-violet-400">
-            Jarvis-X
+            {cta.label}
           </p>
 
           <h2 className="mx-auto mt-6 max-w-4xl text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl">
-            Building intelligence as a system, not a feature.
+            {cta.heading}
           </h2>
 
           <p className="mx-auto mt-8 max-w-2xl text-base leading-8 text-zinc-400 md:text-lg">
-            Jarvis-X is an evolving AI operating system exploring memory,
-            automation, reasoning, voice interaction, and modular intelligence.
+            {cta.description}
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href="https://github.com/annukumarr/Jarvis-X"
+              href={github}
               target="_blank"
               rel="noreferrer"
               className="rounded-xl bg-white px-7 py-4 font-medium text-black transition duration-300 hover:bg-zinc-200"
             >
-              View GitHub Repository →
+              {cta.primaryLabel}
             </a>
 
             <Link
               href="/#projects"
               className="rounded-xl border border-white/15 px-7 py-4 font-medium text-white transition duration-300 hover:border-violet-500/50 hover:text-violet-300"
             >
-              Explore More Projects
+              {cta.secondaryLabel}
             </Link>
           </div>
         </div>

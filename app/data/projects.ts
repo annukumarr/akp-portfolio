@@ -20,7 +20,7 @@ export const projects = {
       description:
         "A premium AI portfolio built using Next.js, TypeScript, and modern UI architecture.",
       tech: ["Next.js", "TypeScript", "Tailwind CSS", "Motion"],
-      href: "https://github.com/annukumarr/akp-portfolio",
+      href: "/projects/legacy",
     },
 
     {

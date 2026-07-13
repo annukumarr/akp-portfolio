@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "motion/react";
 
 type ProjectCardProps = {
@@ -17,6 +18,33 @@ export default function ProjectCard({
   href,
   tech,
 }: ProjectCardProps) {
+  const isExternalLink = href.startsWith("http");
+
+  const linkClassName = `
+    inline-flex items-center gap-2
+    rounded-xl border border-zinc-700
+    px-4 py-2 font-medium
+    transition-all duration-300
+    hover:border-violet-500
+    hover:bg-violet-500/10
+    hover:text-violet-300
+  `;
+
+  const linkContent = (
+    <>
+      View Project
+
+      <span
+        className="
+          transition-transform duration-300
+          group-hover:translate-x-1
+        "
+      >
+        →
+      </span>
+    </>
+  );
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -87,31 +115,20 @@ export default function ProjectCard({
       </div>
 
       <div className="relative mt-auto pt-8">
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="
-            inline-flex items-center gap-2
-            rounded-xl border border-zinc-700
-            px-4 py-2 font-medium
-            transition-all duration-300
-            hover:border-violet-500
-            hover:bg-violet-500/10
-            hover:text-violet-300
-          "
-        >
-          View Project
-
-          <span
-            className="
-              transition-transform duration-300
-              group-hover:translate-x-1
-            "
+        {isExternalLink ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={linkClassName}
           >
-            →
-          </span>
-        </a>
+            {linkContent}
+          </a>
+        ) : (
+          <Link href={href} className={linkClassName}>
+            {linkContent}
+          </Link>
+        )}
       </div>
     </motion.article>
   );

@@ -41,18 +41,45 @@ export default async function ProjectPage({
       />
 
       <ProjectOverview
-        overview={project.overview}
-        problem={project.problem}
-        solution={project.solution}
+        label={project.overview.label}
+        heading={project.overview.heading}
+        description={project.overview.description}
+        problem={project.overview.problem}
+        problemTitle={project.overview.problemTitle}
+        solution={project.overview.solution}
+        solutionTitle={project.overview.solutionTitle}
       />
 
-      <ProjectArchitecture />
+      <ProjectArchitecture
+        label={project.architecture.label}
+        heading={project.architecture.heading}
+        description={project.architecture.description}
+        items={project.architecture.items}
+      />
 
-      <ProjectStatus />
+      <ProjectStatus
+        label={project.development.label}
+        heading={project.development.heading}
+        description={project.development.description}
+        stages={project.development.stages}
+        note={project.development.note}
+      />
 
-      <ProjectChallenges />
+      <ProjectChallenges
+        label={project.challenges.label}
+        heading={project.challenges.heading}
+        description={project.challenges.description}
+        items={project.challenges.items}
+      />
 
-      <ProjectRoadmap />
+      <ProjectRoadmap
+        label={project.roadmap.label}
+        heading={project.roadmap.heading}
+        description={project.roadmap.description}
+        items={project.roadmap.items}
+        cta={project.cta}
+        github={project.github}
+      />
     </main>
   );
 }
