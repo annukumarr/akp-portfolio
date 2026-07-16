@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import ProjectHero from "@/components/ProjectDetails/ProjectHero/ProjectHero";
@@ -17,6 +18,42 @@ type ProjectPageProps = {
     slug: string;
   }>;
 };
+
+// ✅ Dynamic SEO Metadata
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  if (!(slug in projectDetails)) {
+    return {};
+  }
+
+  const project = projectDetails[slug as ProjectSlug];
+
+  return {
+    title: `${project.title} | Annu Kumar Pal`,
+    description: project.tagline,
+
+    openGraph: {
+      title: `${project.title} | Annu Kumar Pal`,
+      description: project.tagline,
+      url: `https://akp-portfolio-zeta.vercel.app/projects/${slug}`,
+      siteName: "AKP Portfolio",
+      type: "website",
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | Annu Kumar Pal`,
+      description: project.tagline,
+    },
+
+    alternates: {
+      canonical: `https://akp-portfolio-zeta.vercel.app/projects/${slug}`,
+    },
+  };
+}
 
 export default async function ProjectPage({
   params,
