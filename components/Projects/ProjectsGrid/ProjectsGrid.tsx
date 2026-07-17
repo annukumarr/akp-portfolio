@@ -12,6 +12,9 @@ export default function ProjectsGrid() {
           description={project.description}
           tech={project.tech}
           href={project.href}
+          github={project.github}
+          status={project.status}
+          year={project.year}
         />
       ))}
     </div>
