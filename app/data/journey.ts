@@ -2,35 +2,42 @@ export const journey = {
   title: "My Journey",
 
   subtitle:
-    "Every great engineer starts somewhere. This is my path toward becoming an AI Engineer.",
+    "From writing my first lines of code to building AI-powered software, every milestone has strengthened my passion for engineering and continuous learning.",
 
   timeline: [
     {
       year: "2022",
-      title: "Started Learning Programming",
+      title: "Started Programming",
       description:
-        "Began my journey with C, C++, HTML, CSS and basic programming concepts.",
+        "Learned the fundamentals of programming through C, C++, HTML and CSS while developing problem-solving skills and logical thinking.",
     },
 
     {
       year: "2023",
-      title: "Built My First Projects",
+      title: "Built My First Software Projects",
       description:
-        "Created beginner software projects and started learning problem solving.",
+        "Created desktop and web applications, explored Git and GitHub, and gained practical experience by building complete projects.",
     },
 
     {
       year: "2025",
-      title: "Started MCA (AI & ML)",
+      title: "Started MCA in AI & Machine Learning",
       description:
-        "Focused on Artificial Intelligence, Machine Learning, and building real-world applications.",
+        "Began specializing in Artificial Intelligence, Machine Learning, Data Structures, Algorithms and modern software engineering.",
+    },
+
+    {
+      year: "2026",
+      title: "Building Legacy & Jarvis-X",
+      description:
+        "Developing a production-grade portfolio (Legacy) and Jarvis-X, a long-term AI operating system focused on intelligent automation and real-world applications.",
     },
 
     {
       year: "Future",
-      title: "Building AI That Solves Real Problems",
+      title: "AI Engineer",
       description:
-        "Creating intelligent products, AI assistants, and impactful software.",
+        "My goal is to design intelligent products that solve meaningful problems while continuously learning, contributing to open source and building impactful AI systems.",
     },
   ],
 };
