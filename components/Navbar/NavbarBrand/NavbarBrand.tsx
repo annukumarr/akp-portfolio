@@ -9,7 +9,7 @@ export default function NavbarBrand() {
       className="group flex items-center gap-3"
     >
       <Image
-        src="/legacy-logo.png"
+        src="/images/legacy-logo.png"
         alt="ムɴɴᴜ Logo"
         width={48}
         height={48}
