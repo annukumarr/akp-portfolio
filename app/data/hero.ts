@@ -1,9 +1,27 @@
 export const hero = {
-  badge: "🚀 Future AI Engineer",
+  badge: "🚀 Building the Future with AI",
+
+  branding: {
+    name: "ANNU PAL",
+    role: "AI / ML Engineer",
+  },
 
   headline: {
-    primary: "Building AI that solves",
-    accent: "real-world problems.",
+    primary: "Building intelligent AI products",
+    accent: "that create real impact.",
+  },
+
+  currentFocus: {
+    building: "Legacy v2 Portfolio",
+    learning: "LLMs & AI Agents",
+    next: "JARVIS-X AI Assistant",
+    goal: "AI Internship 2027",
+  },
+
+  buttons: {
+    primary: "Explore My Journey",
+    secondary: "View GitHub",
+    resume: "About Me",
   },
 
   philosophy: [
@@ -11,11 +29,4 @@ export const hero = {
     "Build with Purpose.",
     "Leave Impact.",
   ],
-
-  description:
-    "MCA AI & ML student focused on building intelligent software, AI agents, and products that solve meaningful real-world problems.",
-
-  primaryButton: "Explore My Journey",
-
-  secondaryButton: "View GitHub",
 };

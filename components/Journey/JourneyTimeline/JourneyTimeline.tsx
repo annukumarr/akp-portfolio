@@ -5,7 +5,7 @@ import FadeIn from "@/components/motion/FadeIn";
 
 export default function JourneyTimeline() {
   return (
-    <div className="relative mt-16 space-y-16 border-l border-zinc-800">
+    <div className="relative mt-20 space-y-24 border-l-2 border-border">
       {journey.timeline.map((item, index) => (
         <FadeIn
           key={`${item.year}-${item.title}`}

@@ -13,8 +13,11 @@ export default function Home() {
 
       <main>
         <Hero />
+
         <Journey />
+
         <Projects />
+
         <Contact />
       </main>
 

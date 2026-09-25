@@ -6,83 +6,92 @@ import type { AICoreState } from "@/app/types/ai-core";
 
 import AICore from "@/components/Hero/AICore/AICore";
 import Badge from "@/components/Hero/Badge/Badge";
-import Heading from "@/components/Hero/Heading/Heading";
-import Description from "@/components/Hero/Description/Description";
 import Buttons from "@/components/Hero/Buttons/Buttons";
+import Description from "@/components/Hero/Description/Description";
+import Heading from "@/components/Hero/Heading/Heading";
+import HeroBackground from "@/components/Hero/HeroBackground/HeroBackground";
+import JarvisPanel from "@/components/Hero/JarvisPanel/JarvisPanel";
+import NowBuilding from "@/components/Hero/NowBuilding/NowBuilding";
 import SocialProof from "@/components/Hero/SocialProof/SocialProof";
 
-import Container from "@/components/ui/Container";
 import FadeIn from "@/components/motion/FadeIn";
-
-const wait = (duration: number) =>
-  new Promise((resolve) => setTimeout(resolve, duration));
+import Container from "@/components/ui/Container";
 
 export default function Hero() {
   const [aiState, setAIState] = useState<AICoreState>("idle");
-  const [isDemoRunning, setIsDemoRunning] = useState(false);
+  const [showJarvisPanel, setShowJarvisPanel] = useState(false);
 
-  const runAIDemo = async () => {
-    if (isDemoRunning) return;
-
-    setIsDemoRunning(true);
-
-    setAIState("listening");
-    await wait(2000);
-
-    setAIState("thinking");
-    await wait(2500);
-
-    setAIState("speaking");
-    await wait(2000);
-
+  const openJarvis = () => {
+    setShowJarvisPanel(true);
     setAIState("idle");
-    setIsDemoRunning(false);
+  };
+
+  const closeJarvis = () => {
+    setShowJarvisPanel(false);
+    setAIState("idle");
   };
 
   return (
-    <Container>
-      <section className="flex min-h-screen items-center pt-20">
-        <div className="grid w-full gap-16 lg:grid-cols-2">
-          {/* Left Side */}
-          <div className="flex flex-col justify-center">
-            <FadeIn delay={0}>
-              <Badge />
-            </FadeIn>
+    <div className="relative">
+      <HeroBackground />
 
-            <FadeIn delay={0.1}>
-              <Heading />
-            </FadeIn>
+      <Container className="relative z-10">
+        <section className="flex min-h-screen items-center py-32">
+          <div className="grid w-full items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+            {/* Left Side */}
+            <div className="flex flex-col justify-center">
+              <FadeIn delay={0}>
+                <Badge />
+              </FadeIn>
 
-            <FadeIn delay={0.2}>
-              <Description />
-            </FadeIn>
+              <FadeIn delay={0.1}>
+                <Heading />
+              </FadeIn>
 
-            <FadeIn delay={0.3}>
-              <Buttons />
-            </FadeIn>
+              <FadeIn delay={0.2}>
+                <Description />
+              </FadeIn>
 
-            <FadeIn delay={0.4}>
-              <SocialProof />
+              <FadeIn delay={0.3}>
+                <Buttons />
+              </FadeIn>
+
+              <FadeIn delay={0.4}>
+                <SocialProof />
+              </FadeIn>
+
+              <FadeIn delay={0.5}>
+                <NowBuilding />
+              </FadeIn>
+            </div>
+
+            {/* Right Side */}
+            <FadeIn delay={0.5} y={40}>
+              <div className="flex -translate-y-4 flex-col items-center justify-center gap-6 lg:-translate-y-8">
+                {/* AI Core */}
+                <AICore state={aiState} />
+
+                {/* JARVIS Toggle */}
+                <button
+                  type="button"
+                  onClick={openJarvis}
+                  className="rounded-xl border border-accent/50 px-5 py-3 text-sm font-medium text-accent-light transition duration-300 hover:border-accent hover:bg-accent/10"
+                >
+                  {showJarvisPanel ? "JARVIS-X Online" : "Run AI Demo"}
+                </button>
+
+                {/* JARVIS Panel */}
+                {showJarvisPanel && (
+                  <JarvisPanel
+                    onStateChange={setAIState}
+                    onClose={closeJarvis}
+                  />
+                )}
+              </div>
             </FadeIn>
           </div>
-
-          {/* Right Side */}
-          <FadeIn delay={0.5} y={40}>
-            <div className="flex flex-col items-center justify-center gap-6">
-              <AICore state={aiState} />
-
-              <button
-                type="button"
-                onClick={runAIDemo}
-                disabled={isDemoRunning}
-                className="rounded-xl border border-accent/50 px-5 py-3 text-sm font-medium text-accent-light transition duration-300 hover:border-accent hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isDemoRunning ? "AI Demo Running..." : "Run AI Demo"}
-              </button>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-    </Container>
+        </section>
+      </Container>
+    </div>
   );
 }
