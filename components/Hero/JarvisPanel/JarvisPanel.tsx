@@ -20,7 +20,6 @@ import {
   executeJarvisAction,
 } from "@/lib/jarvis-actions";
 
-
 // ========================================================
 // TYPES
 // ========================================================
@@ -28,6 +27,8 @@ import {
 type JarvisPanelProps = {
   onClose?: () => void;
   onStateChange?: (state: AICoreState) => void;
+  onOwnerModeChange?: (isOwner: boolean) => void;
+  embedded?: boolean;
 };
 
 type Message = {
@@ -41,7 +42,6 @@ type AuthState = {
   role: "owner" | "user";
 };
 
-
 // ========================================================
 // COMPONENT
 // ========================================================
@@ -49,6 +49,8 @@ type AuthState = {
 export default function JarvisPanel({
   onClose,
   onStateChange,
+  onOwnerModeChange,
+  embedded = false,
 }: JarvisPanelProps) {
 
   // ======================================================
@@ -77,14 +79,12 @@ export default function JarvisPanel({
     role: "user",
   });
 
-
   // ======================================================
   // CONFIRMATION STATE
   // ======================================================
 
   const [confirmationRequired, setConfirmationRequired] =
     useState(false);
-
 
   // ======================================================
   // CHAT MESSAGES
@@ -100,14 +100,12 @@ export default function JarvisPanel({
       },
     ]);
 
-
   // ======================================================
   // CHAT SCROLL REF
   // ======================================================
 
   const messagesContainerRef =
     useRef<HTMLDivElement>(null);
-
 
   // ======================================================
   // AUTO-SCROLL CHAT
@@ -128,7 +126,6 @@ export default function JarvisPanel({
     });
 
   }, [messages, isLoading]);
-
 
   // ========================================================
   // CHECK CURRENT AUTHENTICATION
@@ -190,7 +187,6 @@ export default function JarvisPanel({
 
   }, []);
 
-
   // ========================================================
   // OWNER LOGIN
   // ========================================================
@@ -218,6 +214,8 @@ export default function JarvisPanel({
         authenticated: true,
         role: "owner",
       });
+
+      onOwnerModeChange?.(true);
 
       setPassword("");
       setIsLoginOpen(false);
@@ -262,7 +260,6 @@ export default function JarvisPanel({
 
   };
 
-
   // ========================================================
   // OWNER LOGOUT
   // ========================================================
@@ -283,6 +280,8 @@ export default function JarvisPanel({
         authenticated: false,
         role: "user",
       });
+
+      onOwnerModeChange?.(false);
 
       setConfirmationRequired(false);
 
@@ -311,7 +310,6 @@ export default function JarvisPanel({
 
   };
 
-
   // ========================================================
   // SEND MESSAGE
   // ========================================================
@@ -331,7 +329,6 @@ export default function JarvisPanel({
     await processMessage(message);
 
   };
-
 
   // ========================================================
   // PROCESS MESSAGE
@@ -368,7 +365,6 @@ export default function JarvisPanel({
           setTimeout(resolve, 300)
       );
 
-
       // ==================================================
       // ASK BACKEND
       // ==================================================
@@ -377,7 +373,6 @@ export default function JarvisPanel({
 
       const result =
         await askJarvis(message);
-
 
       // ==================================================
       // CONFIRMATION REQUIRED
@@ -412,7 +407,6 @@ export default function JarvisPanel({
         return;
       }
 
-
       // ==================================================
       // CONFIRMATION COMPLETED
       // ==================================================
@@ -425,7 +419,6 @@ export default function JarvisPanel({
         setConfirmationRequired(false);
 
       }
-
 
       // ==================================================
       // FRONTEND NAVIGATION ACTION
@@ -442,7 +435,6 @@ export default function JarvisPanel({
           executeJarvisAction(
             result.action
           );
-
 
         // ------------------------------------------------
         // ACTION SUCCESS
@@ -479,9 +471,7 @@ export default function JarvisPanel({
                 : "Taking you to the contact section.",
           };
 
-
           onStateChange?.("speaking");
-
 
           const jarvisMessage: Message = {
             id: Date.now() + 1,
@@ -490,18 +480,15 @@ export default function JarvisPanel({
               actionLabels[result.action],
           };
 
-
           setMessages((current) => [
             ...current,
             jarvisMessage,
           ]);
 
-
           await new Promise(
             (resolve) =>
               setTimeout(resolve, 700)
           );
-
 
           onStateChange?.("idle");
 
@@ -511,7 +498,6 @@ export default function JarvisPanel({
         }
 
       }
-
 
       // ==================================================
       // NORMAL JARVIS RESPONSE
@@ -529,7 +515,6 @@ export default function JarvisPanel({
         ...current,
         jarvisMessage,
       ]);
-
 
       await new Promise(
         (resolve) =>
@@ -561,7 +546,6 @@ export default function JarvisPanel({
         errorMessage,
       ]);
 
-
       await new Promise(
         (resolve) =>
           setTimeout(resolve, 700)
@@ -576,7 +560,6 @@ export default function JarvisPanel({
     }
 
   };
-
 
   // ========================================================
   // CONFIRM ACTION
@@ -595,7 +578,6 @@ export default function JarvisPanel({
 
   };
 
-
   // ========================================================
   // CANCEL ACTION
   // ========================================================
@@ -613,87 +595,89 @@ export default function JarvisPanel({
 
   };
 
-
   // ========================================================
   // RENDER
   // ========================================================
 
   return (
 
-    <div className="w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-2xl backdrop-blur-xl">
+    <div
+      className={
+        embedded
+          ? "w-full overflow-hidden bg-transparent"
+          : "w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-2xl backdrop-blur-xl"
+      }
+    >
 
       {/* ==================================================
           HEADER
       ================================================== */}
 
-      <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+      {!embedded && (
+        <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
 
-        <div>
+          <div>
+
+            <div className="flex items-center gap-2">
+
+              <p className="text-sm font-semibold text-text-primary">
+                JARVIS-X
+              </p>
+
+              {auth.authenticated && (
+
+                <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-accent-light">
+                  Owner
+                </span>
+
+              )}
+
+            </div>
+
+            <p className="text-xs text-text-muted">
+
+              {isCheckingAuth
+                ? "Checking authentication..."
+                : auth.authenticated
+                  ? "Owner Mode • Intelligence Online"
+                  : "Visitor Mode • Intelligence Online"}
+
+            </p>
+
+          </div>
 
           <div className="flex items-center gap-2">
 
-            <p className="text-sm font-semibold text-text-primary">
-              JARVIS-X
-            </p>
-
-
             {auth.authenticated && (
 
-              <span className="rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-accent-light">
-                Owner
-              </span>
+              <button
+                type="button"
+                onClick={handleOwnerLogout}
+                disabled={isLoading}
+                className="rounded-lg px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-text-muted transition hover:bg-white/5 hover:text-text-primary disabled:opacity-40"
+              >
+                Logout
+              </button>
+
+            )}
+
+            {onClose && (
+
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-lg px-2 py-1 text-sm text-text-muted transition hover:bg-white/5 hover:text-text-primary"
+                aria-label="Close JARVIS-X"
+              >
+                ×
+              </button>
 
             )}
 
           </div>
 
-
-          <p className="text-xs text-text-muted">
-
-            {isCheckingAuth
-              ? "Checking authentication..."
-              : auth.authenticated
-                ? "Owner Mode • Intelligence Online"
-                : "Visitor Mode • Intelligence Online"}
-
-          </p>
-
         </div>
-
-
-        <div className="flex items-center gap-2">
-
-          {auth.authenticated && (
-
-            <button
-              type="button"
-              onClick={handleOwnerLogout}
-              disabled={isLoading}
-              className="rounded-lg px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-text-muted transition hover:bg-white/5 hover:text-text-primary disabled:opacity-40"
-            >
-              Logout
-            </button>
-
-          )}
-
-
-          {onClose && (
-
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-lg px-2 py-1 text-sm text-text-muted transition hover:bg-white/5 hover:text-text-primary"
-              aria-label="Close JARVIS-X"
-            >
-              ×
-            </button>
-
-          )}
-
-        </div>
-
-      </div>
-
+      )}
 
       {/* ==================================================
           OWNER LOGIN
@@ -716,7 +700,6 @@ export default function JarvisPanel({
 
           </div>
 
-
           <form
             onSubmit={handleOwnerLogin}
             className="space-y-3"
@@ -736,7 +719,6 @@ export default function JarvisPanel({
               className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5 text-sm text-text-primary outline-none placeholder:text-text-muted focus:border-accent/40 disabled:opacity-50"
             />
 
-
             {loginError && (
 
               <p className="text-xs leading-5 text-red-400">
@@ -744,7 +726,6 @@ export default function JarvisPanel({
               </p>
 
             )}
-
 
             <div className="flex gap-2">
 
@@ -762,7 +743,6 @@ export default function JarvisPanel({
                   : "Authenticate"}
 
               </button>
-
 
               <button
                 type="button"
@@ -784,7 +764,6 @@ export default function JarvisPanel({
         </div>
 
       )}
-
 
       {/* ==================================================
           MESSAGES
@@ -814,7 +793,6 @@ export default function JarvisPanel({
 
             </p>
 
-
             <p className="text-sm leading-6 text-text-secondary">
               {message.content}
             </p>
@@ -822,7 +800,6 @@ export default function JarvisPanel({
           </div>
 
         ))}
-
 
         {/* ==================================================
             CONFIRMATION BUTTONS
@@ -836,7 +813,6 @@ export default function JarvisPanel({
               Confirm this action?
             </p>
 
-
             <div className="flex gap-2">
 
               <button
@@ -847,7 +823,6 @@ export default function JarvisPanel({
               >
                 Confirm
               </button>
-
 
               <button
                 type="button"
@@ -863,7 +838,6 @@ export default function JarvisPanel({
           </div>
 
         )}
-
 
         {/* ==================================================
             LOADING
@@ -893,7 +867,6 @@ export default function JarvisPanel({
 
       </div>
 
-
       {/* ==================================================
           OWNER ACCESS
       ================================================== */}
@@ -916,7 +889,6 @@ export default function JarvisPanel({
           </div>
 
         )}
-
 
       {/* ==================================================
           INPUT
@@ -946,7 +918,6 @@ export default function JarvisPanel({
             }
             className="min-w-0 flex-1 bg-transparent px-2 py-2 text-sm text-text-primary outline-none placeholder:text-text-muted disabled:opacity-50"
           />
-
 
           <button
             type="submit"
