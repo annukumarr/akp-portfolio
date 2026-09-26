@@ -19,7 +19,6 @@ export default function JarvisWidget({
   onClose,
   onStateChange,
 }: JarvisWidgetProps) {
-
   const [isOwner, setIsOwner] = useState(false);
 
   const [isLoggingOut, setIsLoggingOut] =
@@ -28,20 +27,18 @@ export default function JarvisWidget({
   const [panelKey, setPanelKey] =
     useState(0);
 
-  // ======================================================
-  // CHECK AUTHENTICATION
-  // ======================================================
+  const [quickPrompt, setQuickPrompt] =
+    useState<{
+      id: number;
+      message: string;
+    } | null>(null);
 
   useEffect(() => {
-
     let mounted = true;
 
     const checkAuth = async () => {
-
       try {
-
-        const auth =
-          await getJarvisAuthState();
+        const auth = await getJarvisAuthState();
 
         if (!mounted) {
           return;
@@ -51,9 +48,7 @@ export default function JarvisWidget({
           auth.authenticated &&
           auth.role === "owner"
         );
-
       } catch (error) {
-
         console.error(
           "JARVIS-X widget authentication check failed:",
           error
@@ -62,9 +57,7 @@ export default function JarvisWidget({
         if (mounted) {
           setIsOwner(false);
         }
-
       }
-
     };
 
     checkAuth();
@@ -72,68 +65,47 @@ export default function JarvisWidget({
     return () => {
       mounted = false;
     };
-
   }, [panelKey]);
 
-  // ======================================================
-  // OWNER LOGOUT
-  // ======================================================
+  const triggerQuickPrompt = (
+    message: string
+  ) => {
+    setQuickPrompt({
+      id: Date.now(),
+      message,
+    });
+  };
 
   const handleLogout = async () => {
-
     if (isLoggingOut) {
       return;
     }
 
     try {
-
       setIsLoggingOut(true);
 
       await logoutOwner();
 
-      /*
-       * Reset the embedded JARVIS panel.
-       *
-       * This forces JarvisPanel to run its authentication
-       * check again and switch from Owner Mode to Visitor Mode.
-       */
       setIsOwner(false);
-
-      setPanelKey(
-        (current) => current + 1
-      );
-
+      setQuickPrompt(null);
+      setPanelKey((current) => current + 1);
     } catch (error) {
-
       console.error(
         "JARVIS-X owner logout failed:",
         error
       );
-
     } finally {
-
       setIsLoggingOut(false);
-
     }
-
   };
 
   return (
-
     <div className="fixed bottom-24 right-6 z-[60] w-[min(420px,calc(100vw-2rem))]">
-
       <div className="overflow-hidden rounded-2xl border border-accent/20 bg-[#08080c]/95 shadow-[0_20px_80px_rgba(0,0,0,0.55),0_0_50px_rgba(139,92,246,0.12)] backdrop-blur-2xl">
 
-        {/* ==================================================
-            ASK JARVIS HEADER
-        ================================================== */}
-
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-
           <div>
-
             <div className="flex items-center gap-2">
-
               <span className="text-lg text-accent-light">
                 ✦
               </span>
@@ -141,13 +113,11 @@ export default function JarvisWidget({
               <p className="text-sm font-semibold tracking-wide text-text-primary">
                 ASK JARVIS
               </p>
-
             </div>
 
             <p className="mt-1 text-xs text-text-muted">
               Your AI guide to Annu&apos;s work
             </p>
-
           </div>
 
           <button
@@ -158,93 +128,92 @@ export default function JarvisWidget({
           >
             ×
           </button>
-
         </div>
 
-        {/* ==================================================
-            QUICK PROMPTS
-        ================================================== */}
-
         <div className="border-b border-white/10 px-4 py-4">
-
           <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.2em] text-text-muted">
             Try asking
           </p>
 
           <div className="flex flex-wrap gap-2">
-
             <button
               type="button"
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-text-secondary transition hover:border-accent/40 hover:bg-accent/10 hover:text-text-primary"
+              onClick={() =>
+                triggerQuickPrompt(
+                  "Tell me about Annu."
+                )
+              }
+              disabled={isLoggingOut}
+              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-text-secondary transition hover:border-accent/40 hover:bg-accent/10 hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40"
             >
               About Annu
             </button>
 
             <button
               type="button"
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-text-secondary transition hover:border-accent/40 hover:bg-accent/10 hover:text-text-primary"
+              onClick={() =>
+                triggerQuickPrompt(
+                  "Tell me about JARVIS-X."
+                )
+              }
+              disabled={isLoggingOut}
+              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-text-secondary transition hover:border-accent/40 hover:bg-accent/10 hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40"
             >
               Tell me about JARVIS-X
             </button>
 
             <button
               type="button"
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-text-secondary transition hover:border-accent/40 hover:bg-accent/10 hover:text-text-primary"
+              onClick={() =>
+                triggerQuickPrompt(
+                  "What are Annu's skills?"
+                )
+              }
+              disabled={isLoggingOut}
+              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-text-secondary transition hover:border-accent/40 hover:bg-accent/10 hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40"
             >
               What are his skills?
             </button>
 
             <button
               type="button"
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-text-secondary transition hover:border-accent/40 hover:bg-accent/10 hover:text-text-primary"
+              onClick={() =>
+                triggerQuickPrompt(
+                  "Show me Annu's projects."
+                )
+              }
+              disabled={isLoggingOut}
+              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-text-secondary transition hover:border-accent/40 hover:bg-accent/10 hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40"
             >
               Explore projects
             </button>
-
           </div>
-
         </div>
 
-        {/* ==================================================
-            EXISTING JARVIS ENGINE
-        ================================================== */}
-
         <JarvisPanel
-  key={panelKey}
-  embedded
-  onStateChange={onStateChange}
-  onOwnerModeChange={setIsOwner}
-  onClose={onClose}
-/>
-
-        {/* ==================================================
-            OWNER LOGOUT
-            Visible ONLY in Owner Mode
-        ================================================== */}
+          key={panelKey}
+          embedded
+          quickPrompt={quickPrompt}
+          onStateChange={onStateChange}
+          onOwnerModeChange={setIsOwner}
+          onClose={onClose}
+        />
 
         {isOwner && (
-
           <div className="border-t border-white/10 px-4 py-3">
-
             <button
               type="button"
               onClick={handleLogout}
               disabled={isLoggingOut}
               className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-2.5 text-xs font-medium text-text-muted transition hover:border-red-400/30 hover:bg-red-400/5 hover:text-red-300 disabled:cursor-not-allowed disabled:opacity-40"
             >
-
               {isLoggingOut
                 ? "Logging out..."
                 : "Logout Owner Mode"}
-
             </button>
-
           </div>
-
         )}
-
       </div>
-
     </div>
   );
 }

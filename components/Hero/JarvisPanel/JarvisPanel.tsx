@@ -24,11 +24,17 @@ import {
 // TYPES
 // ========================================================
 
+type JarvisQuickPrompt = {
+  id: number;
+  message: string;
+};
+
 type JarvisPanelProps = {
   onClose?: () => void;
   onStateChange?: (state: AICoreState) => void;
   onOwnerModeChange?: (isOwner: boolean) => void;
   embedded?: boolean;
+  quickPrompt?: JarvisQuickPrompt | null;
 };
 
 type Message = {
@@ -51,6 +57,7 @@ export default function JarvisPanel({
   onStateChange,
   onOwnerModeChange,
   embedded = false,
+  quickPrompt,
 }: JarvisPanelProps) {
 
   // ======================================================
@@ -106,6 +113,9 @@ export default function JarvisPanel({
 
   const messagesContainerRef =
     useRef<HTMLDivElement>(null);
+
+  const lastQuickPromptId =
+    useRef<number | null>(null);
 
   // ======================================================
   // AUTO-SCROLL CHAT
@@ -560,6 +570,46 @@ export default function JarvisPanel({
     }
 
   };
+
+  const processMessageRef = useRef(processMessage);
+
+  processMessageRef.current =
+    processMessage;
+
+  // ========================================================
+  // QUICK PROMPT
+  // ========================================================
+
+  useEffect(() => {
+    if (!quickPrompt?.message.trim()) {
+      return;
+    }
+
+    if (
+      quickPrompt.id ===
+      lastQuickPromptId.current
+    ) {
+      return;
+    }
+
+    if (
+      isLoading ||
+      isCheckingAuth
+    ) {
+      return;
+    }
+
+    lastQuickPromptId.current =
+      quickPrompt.id;
+
+    void processMessageRef.current(
+      quickPrompt.message
+    );
+  }, [
+    quickPrompt,
+    isLoading,
+    isCheckingAuth,
+  ]);
 
   // ========================================================
   // CONFIRM ACTION
